@@ -1,0 +1,9 @@
+{
+  "name": "blog-accesible",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:js": "node --test \"tests/js/*.test.js\"",
+    "coverage:js": "node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=build/lcov.info tests/js/*.test.js"
+  }
+}

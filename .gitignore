@@ -1,0 +1,27 @@
+# Base de datos local (se crea sola al abrir el sitio)
+data/*.sqlite
+data/*.sqlite-journal
+data/*.sqlite-wal
+data/*.sqlite-shm
+
+# Dependencias y entornos (evita superar los 2500 hallazgos de la evaluación)
+node_modules/
+vendor/
+venv/
+.venv/
+
+# Resultados de pruebas
+build/
+.phpunit.cache/
+.phpunit.result.cache
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Se generan al instalar PHPUnit (solo en pruebas)
+composer.json
+composer.lock

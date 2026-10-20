@@ -1,0 +1,20 @@
+project:
+  name: "Blog de Noticias Autoadministrable"
+  version: 1.0.0
+  description: "Blog de noticias en PHP con panel de administracion (CRUD), buscador en vivo y accesibilidad WCAG 2.1"
+
+stack:
+  detect: true
+
+academic:
+  course: "Pruebas y Calidad de Software"
+  evaluation_name: "Evaluación del Parcial"
+  partial_weight_percentage: 80
+  evaluator:
+    name: "COMPLETAR nombre del docente"
+    email: "COMPLETAR correo del docente"
+    role: "Docente Evaluador"
+  members:
+    - name: "COMPLETAR nombre del integrante"
+      code: "COMPLETAR codigo"
+      email: "COMPLETAR codigo@continental.edu.pe"

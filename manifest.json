@@ -1,0 +1,14 @@
+{
+  "name": "Noticias para Todos",
+  "short_name": "Noticias",
+  "description": "Blog de noticias accesible para todas las personas",
+  "lang": "es",
+  "start_url": "index.php",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#003a8c",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

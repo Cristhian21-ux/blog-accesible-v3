@@ -1,0 +1,22 @@
+# Seguridad para Apache (XAMPP). Con "php -S" se usa router.php.
+Options -Indexes
+ServerSignature Off
+
+<IfModule mod_alias.c>
+  # Carpetas internas, base de datos y archivos de configuración: nunca se sirven
+  RedirectMatch 404 (?i)/(data|includes|tests|bin|vendor|build|node_modules|\.github)(/|$)
+  RedirectMatch 404 (?i)/\.(?!well-known)
+  RedirectMatch 404 (?i)/(project\.yml|sonar-project\.properties|composer\.(json|lock)|phpunit\.xml(\.dist)?|package(-lock)?\.json|router\.php|README\.md|PLAN_DE_PRUEBAS\.md)$
+  RedirectMatch 404 (?i)\.(sqlite3?|db|sql|bak|log)$
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+<IfModule php_module>
+  php_flag display_errors off
+  php_flag expose_php off
+</IfModule>

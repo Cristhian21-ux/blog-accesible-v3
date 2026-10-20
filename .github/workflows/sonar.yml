@@ -1,0 +1,49 @@
+name: Pruebas y SonarQube Cloud
+
+# Sin acciones de terceros: todo se hace con comandos, así no hay dependencias sin fijar.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calidad:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código (historial completo)
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          git clone "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .
+          git checkout "${GITHUB_SHA}"
+
+      - name: Instalar PHPUnit y cobertura (pcov)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq php-pcov
+          composer require --dev phpunit/phpunit:^11.5 --no-interaction --no-progress
+
+      - name: Pruebas PHP con cobertura
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml --log-junit build/logs/junit.xml
+
+      - name: Pruebas JavaScript con cobertura
+        run: |
+          curl -fsSL https://nodejs.org/dist/v22.11.0/node-v22.11.0-linux-x64.tar.xz | tar -xJ -C "${RUNNER_TEMP}"
+          "${RUNNER_TEMP}/node-v22.11.0-linux-x64/bin/node" --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=build/lcov.info tests/js/*.test.js
+
+      - name: Análisis en SonarQube Cloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+          ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
+        run: |
+          npm install --no-save --ignore-scripts sonarqube-scanner@4
+          ./node_modules/.bin/sonar \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.projectKey="${PROJECT_KEY}" \
+            -Dsonar.organization="${ORGANIZATION}"

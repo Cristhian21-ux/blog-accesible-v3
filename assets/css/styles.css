@@ -1,0 +1,646 @@
+/* ===== Variables y temas ===== */
+:root {
+  --fs: 100%;
+  --bg: #fff;
+  --fg: #111;
+  --muted: #333;
+  --card: #f3f4f6;
+  --border: #1f2937;
+  --accent: #003a8c;
+  --accent-fg: #fff;
+  --danger: #8a0000;
+  --ok: #064d1a;
+  --focus: #b45309;
+  --lh: 1.6;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121212;
+  --fg: #f5f5f5;
+  --muted: #ddd;
+  --card: #1e1e1e;
+  --border: #e5e5e5;
+  --accent: #9ec5ff;
+  --accent-fg: #000;
+  --danger: #ffb3b3;
+  --ok: #9be7ae;
+  --focus: #ffd34d;
+}
+
+:root[data-theme="contrast"] {
+  --bg: #000;
+  --fg: #fff;
+  --muted: #fff;
+  --card: #000;
+  --border: #fff;
+  --accent: #fff;
+  --accent-fg: #000;
+  --danger: #ff9a9a;
+  --ok: #7dff9b;
+  --focus: #ff0;
+}
+
+:root[data-theme="yellow"] {
+  --bg: #000;
+  --fg: #ff0;
+  --muted: #ff0;
+  --card: #000;
+  --border: #ff0;
+  --accent: #ff0;
+  --accent-fg: #000;
+  --danger: #ffb000;
+  --ok: #0ff;
+  --focus: #fff;
+}
+
+/* Paletas pensadas para daltonismo: no dependen de distinguir rojo/verde (o azul/amarillo) */
+:root[data-theme="protan"] {
+  --bg: #fffdf5;
+  --fg: #10151f;
+  --muted: #2b2f3a;
+  --card: #f1efe4;
+  --border: #10151f;
+  --accent: #0b3d91;
+  --accent-fg: #fff;
+  --danger: #6b3d00;
+  --ok: #0b3d91;
+  --focus: #7a4b00;
+}
+
+:root[data-theme="deutan"] {
+  --bg: #fffdf5;
+  --fg: #10151f;
+  --muted: #2b2f3a;
+  --card: #efeee6;
+  --border: #10151f;
+  --accent: #0a3a85;
+  --accent-fg: #fff;
+  --danger: #5c3300;
+  --ok: #0a3a85;
+  --focus: #6e4300;
+}
+
+:root[data-theme="tritan"] {
+  --bg: #fff7f7;
+  --fg: #1a1010;
+  --muted: #3a2a2a;
+  --card: #f5e9e9;
+  --border: #1a1010;
+  --accent: #7a0019;
+  --accent-fg: #fff;
+  --danger: #7a0019;
+  --ok: #004d4d;
+  --focus: #005f5f;
+}
+
+:root[data-font="dyslexia"] {
+  --font: "OpenDyslexic", "Comic Sans MS", "Trebuchet MS", Verdana, sans-serif;
+}
+
+:root[data-space="wide"] {
+  --lh: 2;
+}
+
+/* ===== Base ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--fs);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  line-height: var(--lh);
+  letter-spacing: 0.01em;
+  word-spacing: 0.05em;
+}
+
+:root[data-font="dyslexia"] body {
+  letter-spacing: 0.06em;
+  word-spacing: 0.16em;
+}
+
+main {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 1.9rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
+p,
+li {
+  max-width: 70ch;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  text-decoration-thickness: 3px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+output {
+  display: block;
+}
+
+code {
+  padding: 0 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+}
+
+/* ===== Foco visible ampliado (WCAG 2.4.7 / 2.4.13) ===== */
+:focus-visible {
+  outline: 4px solid var(--focus);
+  outline-offset: 3px;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ===== Utilidades ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: absolute;
+  top: 0;
+  left: -999px;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+.skip:focus {
+  left: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ===== Cabecera y navegación ===== */
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 3px solid var(--border);
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.brand a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav a {
+  display: inline-block;
+  min-height: 44px;
+  padding: 0.6rem 0.25rem;
+}
+
+.inline-form {
+  display: inline;
+  margin: 0;
+}
+
+.linklike {
+  min-height: 44px;
+  padding: 0.6rem 0.25rem;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
+#a11y-toggle {
+  margin-left: auto;
+}
+
+/* ===== Botones (objetivo táctil >= 44px) ===== */
+.btn {
+  display: inline-block;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn.secondary {
+  border-color: var(--border);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.btn.danger {
+  border-color: var(--danger);
+  background: var(--bg);
+  color: var(--danger);
+}
+
+.btn[aria-pressed="true"] {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.btn:hover {
+  filter: brightness(1.15);
+}
+
+/* ===== Panel de accesibilidad ===== */
+.a11y-panel {
+  max-width: 40rem;
+  margin: 1rem;
+  padding: 1rem;
+  border: 3px solid var(--border);
+  background: var(--card);
+}
+
+.a11y-panel fieldset {
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  border: 2px solid var(--border);
+}
+
+.a11y-panel label {
+  display: block;
+  margin: 0.5rem 0 0.25rem;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.check input {
+  flex: none;
+  width: 28px;
+  min-height: 28px;
+}
+
+.a11y-panel .check label {
+  margin: 0;
+}
+
+.hint {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+}
+
+/* ===== Formularios ===== */
+.form,
+.search {
+  display: grid;
+  max-width: 40rem;
+  gap: 0.25rem;
+}
+
+.search {
+  margin-bottom: 1rem;
+}
+
+.search .btn {
+  justify-self: start;
+  margin-top: 0.75rem;
+}
+
+label {
+  display: block;
+  margin-top: 0.75rem;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.55rem 0.7rem;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border: 4px dashed var(--danger);
+}
+
+.field-error {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* ===== Mensajes (llevan texto "Error:"/"Éxito:" y un borde distinto, no solo color) ===== */
+.msg {
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  border: 3px solid;
+  border-radius: 6px;
+  background: var(--card);
+}
+
+.msg.ok {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.msg.error {
+  border: 6px double var(--danger);
+  color: var(--danger);
+}
+
+.is-error {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+[aria-busy="true"] {
+  opacity: 0.6;
+}
+
+/* ===== Portada y tarjetas (mobile-first: 1 columna) ===== */
+.hero {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border-left: 8px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: var(--card);
+}
+
+.hero h1 {
+  margin: 0 0 0.25rem;
+}
+
+.hero p {
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card article {
+  height: 100%;
+  padding: 1rem;
+  border: 2px solid var(--border);
+  border-top: 6px solid var(--accent);
+  border-radius: 8px;
+  background: var(--card);
+  transition: transform 0.15s ease;
+}
+
+.card article:hover {
+  transform: translateY(-2px);
+}
+
+.card img {
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+}
+
+.card h2 {
+  margin: 0.25rem 0;
+  font-size: 1.2rem;
+}
+
+.cat {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.lead {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.article figure {
+  margin: 1rem 0;
+}
+
+.article figcaption {
+  font-size: 0.9rem;
+}
+
+.transcript {
+  margin: 1.5rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 6px solid var(--border);
+  background: var(--card);
+}
+
+audio {
+  width: 100%;
+}
+
+/* ===== Tabla del panel ===== */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+caption {
+  padding: 0.5rem 0;
+  font-weight: 700;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 0.6rem;
+  border: 2px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.actions form {
+  margin: 0;
+}
+
+/* ===== Modo lectura simple (cognitiva / sensorial) ===== */
+:root[data-simple="true"] img {
+  display: none;
+}
+
+:root[data-simple="true"] .hero {
+  padding-left: 0;
+  border-left: 0;
+  background: none;
+}
+
+:root[data-simple="true"] .card article {
+  border-top-width: 2px;
+  transform: none;
+  transition: none;
+}
+
+/* ===== Pie ===== */
+.site-footer {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 3px solid var(--border);
+  text-align: center;
+}
+
+kbd {
+  padding: 0 0.35rem;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+}
+
+/* ===== Tablet y escritorio ===== */
+@media (min-width: 40rem) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== Preferencias del sistema ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .btn,
+  input,
+  select,
+  textarea,
+  .card article {
+    border: 2px solid CanvasText;
+  }
+}
+
+@media print {
+  .a11y-panel,
+  #a11y-toggle,
+  .skip {
+    display: none;
+  }
+}
